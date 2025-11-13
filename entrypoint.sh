@@ -5,6 +5,7 @@ DNS_SERVER=${DNS_SERVER:-127.0.0.1}
 SOCKS_IP=${SOCKS_IP:-127.0.0.1}
 SOCKS_PORT=${SOCKS_PORT:-1080}
 PROXY_DOMAINS=${PROXY_DOMAINS:-}
+PROXY_DNS=${PROXY_DNS:-}
 DNS2SOCKS_ADDR="127.0.0.1:5300"
 
 
@@ -18,7 +19,7 @@ echo "[+] Detected upstream DNS: ${UPSTREAM_DNS}"
 
 # Start dns2socks in background
 echo "[+] Starting dns2socks pointing to SOCKS ${SOCKS_IP}:${SOCKS_PORT}"
-dns2socks -s "socks5://${SOCKS_IP}:${SOCKS_PORT}" -d "${UPSTREAM_DNS}:53" -l"${DNS2SOCKS_ADDR}" -v trace & > /tmp/dns2socks.log
+dns2socks -s "socks5://${SOCKS_IP}:${SOCKS_PORT}" -d "${PROXY_DNS}:53" -l"${DNS2SOCKS_ADDR}" -f -v trace &
 sleep 1
 
 # Build dnsmasq config
@@ -43,4 +44,4 @@ done
 
 # Start dnsmasq in foreground with logging
 echo "[+] Starting dnsmasq..."
-exec dnsmasq -k -d 
+exec dnsmasq -k -d -c 0
