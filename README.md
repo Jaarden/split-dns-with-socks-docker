@@ -27,6 +27,61 @@ docker run --rm \
   dns-proxy
 ```
 
+## Ubuntu
+Ubuntu makes use of systemd-resolved which can be handy but also quite anoying!
+
+What you need to do is add some lines to `/etc/systemd/resolved.conf`
+
+```
+sudo nano /etc/systemd/resolved.conf
+```
+
+Add the following lines, where the DNS parameter is your docker ip:
+
+```
+[Resolve]
+DNS=172.17.0.2    #YOUR DOCKER CONTAINER IP!!!
+Domains=~.
+```
+
+Next restart systemd-resolved:
+
+```
+sudo systemctl restart systemd-resolved
+```
+
+
+When you restart or reset the docker container make sure to restart the systemd-resolved service. Otherwise it will revert back to it's original DNS.
+
+
+You can check this with `resolvctl status`.
+
+CORRECT:
+
+```
+Global
+         Protocols: -LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+  resolv.conf mode: stub
+        DNS Servers: 172.17.0.2 1.1.1.1
+        DNS Domain: ~.
+
+```
+
+INCORRECT:
+
+```
+Global
+         Protocols: -LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+  resolv.conf mode: stub
+Current DNS Server: 1.1.1.1
+       DNS Servers: 172.17.0.2 1.1.1.1
+        DNS Domain: ~.
+
+```
+
+
 
 ## Warning
 You may need to allow your firewall to expose your SOCKS5 proxy port to the DNS container, for example `ufw allow 9999`
+
+
