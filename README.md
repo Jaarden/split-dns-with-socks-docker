@@ -1,7 +1,7 @@
 # What is this?
 
 This project tries to fix the issue of a lot of pentesters, UDP DNS is not working through a SOCKS5 proxy.
-Therefore a lot of linux tools are not working, or even pentest specific tools such as SCCMHunter that don't have support for UDP over TCP.
+Therefore a lot of linux tools are not working, or even pentest specific tools such as SCCMHunter that don't have support for DNS over TCP.
 
 What this Docker container does is being a split DNS server listening on UDP, so all you need to do is set it as your DEFAULT DNS server in linux. For example in `/etc/resolv.conf`
 

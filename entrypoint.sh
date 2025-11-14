@@ -19,7 +19,7 @@ echo "[+] Detected upstream DNS: ${UPSTREAM_DNS}"
 
 # Start dns2socks in background
 echo "[+] Starting dns2socks pointing to SOCKS ${SOCKS_IP}:${SOCKS_PORT}"
-dns2socks -s "socks5://${SOCKS_IP}:${SOCKS_PORT}" -d "${PROXY_DNS}:53" -l"${DNS2SOCKS_ADDR}" -f -v trace &
+dns2socks -s "socks5://${SOCKS_IP}:${SOCKS_PORT}" -d "${PROXY_DNS}:53" -l"${DNS2SOCKS_ADDR}" -f -v trace |  awk '{print "\033[32m" $0 "\033[0m"}' &
 sleep 1
 
 # Build dnsmasq config
